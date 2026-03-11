@@ -7,8 +7,9 @@ export default function PostList() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    getPosts().then((res) => setPosts(res.data));
+    getPosts().then((res) => setPosts(res.data.dato));
   }, []);
+  // console.log(posts);
 
   return (
     <div className="container mx-auto px-4 py-8 overflow-x-auto shadow-md sm:rounded-lg">
@@ -35,12 +36,18 @@ export default function PostList() {
               </td>
               <td className="px-6 py-4">{post.body}</td>
               <td className="px-6 py-4">
-                <button className="bg-transparent hover:bg-blue-700 text-blue-700 border font-bold py-2 px-4 rounded">
+                <Link
+                  to={`/show/${post.id}`}
+                  className="bg-transparent hover:bg-blue-700 text-blue-700 border font-bold py-2 px-4 rounded"
+                >
                   Ver
-                </button>
-                <button className="bg-transparent hover:bg-yellow-700 text-yellow-700 border font-bold py-2 px-4 rounded">
+                </Link>
+                <Link
+                  to={`/edit/${post.id}`}
+                  className="bg-transparent hover:bg-yellow-700 text-yellow-700 border font-bold py-2 px-4 rounded"
+                >
                   Editar
-                </button>
+                </Link>
                 <button className="bg-transparent hover:bg-red-700 text-red-700 border font-bold py-2 px-4 rounded">
                   Eliminar
                 </button>
@@ -52,16 +59,3 @@ export default function PostList() {
     </div>
   );
 }
-
-// {posts.map((post) => (
-//   <tr key={post.id}>
-//     <th scope="row">{post.id}</th>
-//     <td>{post.title}</td>
-//     <td>{post.body}</td>
-//     <td>
-//       <button className="btn btn-danger">Eliminar</button>{" "}
-//       <button className="btn btn-primary">Editar</button>{" "}
-//       <button className="btn btn-success">Ver</button>
-//     </td>
-//   </tr>
-// ))}
