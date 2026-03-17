@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { getPosts } from "../services/postService";
 import type { Post } from "../types/Post";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
+
+type OutletContext = {
+  dark: boolean
+}
 
 export default function PostList() {
+  const { dark } = useOutletContext<OutletContext>()
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
@@ -12,16 +17,40 @@ export default function PostList() {
   // console.log(posts);
 
   return (
-    <div className="container mx-auto px-4 py-8 overflow-x-auto shadow-md sm:rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Lista de Posts</h1>
+    <div
+      className={
+        "container mx-auto px-4 py-8 overflow-x-auto shadow-md sm:rounded-lg " +
+        (dark ? "bg-gray-800 text-white" : "bg-white text-black")
+      }
+    >
+      <h1
+        className={
+          "text-2xl font-bold mb-4 " +
+          (dark ? "text-white" : "text-black")
+        }
+      >
+        Lista de Posts
+      </h1>
       <Link
         to="/create"
         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
       >
         Crear Post
       </Link>
-      <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+      <table
+        className={
+          "w-full text-sm text-left " +
+          (dark ? "text-gray-300" : "text-gray-500")
+        }
+      >
+        <thead
+          className={
+            "text-xs uppercase " +
+            (dark
+              ? "text-gray-300 bg-gray-700"
+              : "text-gray-700 bg-gray-50")
+          }
+        >
           <tr>
             <th className="px-6 py-3">Titulo</th>
             <th className="px-6 py-3">Descripcion</th>
@@ -30,21 +59,49 @@ export default function PostList() {
         </thead>
         <tbody>
           {posts.map((post) => (
-            <tr key={post.id} className="bg-white border-b hover:bg-gray-50">
-              <td className="px-6 py-4 font-medium text-gray-900">
+            <tr
+              key={post.id}
+              className={
+                "border-b hover:bg-gray-50 " +
+                (dark ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-50")
+              }
+            >
+              <td
+                className={
+                  "px-6 py-4 font-medium " +
+                  (dark ? "text-white" : "text-gray-900")
+                }
+              >
                 {post.title}
               </td>
-              <td className="px-6 py-4">{post.body}</td>
+              <td
+                className={
+                  "px-6 py-4 " +
+                  (dark ? "text-gray-300" : "text-gray-900")
+                }
+              >
+                {post.body}
+              </td>
               <td className="px-6 py-4">
                 <Link
                   to={`/show/${post.id}`}
-                  className="bg-transparent hover:bg-blue-700 text-blue-700 border font-bold py-2 px-4 rounded"
+                  className={
+                    "bg-transparent border font-bold py-2 px-4 rounded mr-2 " +
+                    (dark
+                      ? "hover:bg-blue-700 text-blue-400"
+                      : "hover:bg-blue-700 text-blue-700")
+                  }
                 >
                   Ver
                 </Link>
                 <Link
                   to={`/edit/${post.id}`}
-                  className="bg-transparent hover:bg-yellow-700 text-yellow-700 border font-bold py-2 px-4 rounded"
+                  className={
+                    "bg-transparent border font-bold py-2 px-4 rounded " +
+                    (dark
+                      ? "hover:bg-yellow-700 text-yellow-400"
+                      : "hover:bg-yellow-700 text-yellow-700")
+                  }
                 >
                   Editar
                 </Link>

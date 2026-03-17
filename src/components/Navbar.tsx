@@ -1,22 +1,41 @@
-// components/Navbar.tsx
-
 interface NavbarProps {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleTheme: () => void
+  dark: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Navbar = ({ setOpen }: NavbarProps) => {
+const Navbar = ({ toggleTheme, dark, setOpen }: NavbarProps) => {
+
   return (
-    <header className="bg-white shadow p-4 flex items-center justify-between">
-      {/* botón solo visible en móvil */}
-      <button className="md:hidden text-xl" onClick={() => setOpen(true)}>
+    <header
+      className={
+        "shadow p-4 flex justify-between items-center transition-colors duration-300 " +
+        (dark
+          ? "bg-gray-900 text-white"
+          : "bg-white text-black")
+      }
+    >
+
+      <button onClick={() => setOpen(true)} className="md:hidden">
         ☰
       </button>
 
-      <h1 className="font-semibold">Panel Admin</h1>
+      <h1 className="font-semibold">
+        Dashboard
+      </h1>
 
-      <div>Usuario</div>
+      <button
+        onClick={toggleTheme}
+        className={
+          "px-3 py-1 rounded " +
+          (dark ? "bg-gray-700" : "bg-gray-200")
+        }
+      >
+        {dark ? "🌙" : "☀️"}
+      </button>
+
     </header>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
