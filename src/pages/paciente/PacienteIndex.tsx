@@ -1,21 +1,44 @@
 import { useEffect, useState } from "react";
 import type { Paciente } from "../../types/Paciente";
 import { getPaciente } from "../../services/pacienteService";
+import { useOutletContext } from "react-router-dom";
+import TextDark from "../../configuration/TextDark";
+import DarkTable from "../../components/DarkTable";
+
+type OutletContext = {
+  dark: boolean;
+};
 
 function PacienteIndex() {
+  const { dark } = useOutletContext<OutletContext>();
+
   const [paciente, setPaciente] = useState<Paciente[]>([]);
   useEffect(() => {
     getPaciente().then((paciente) => setPaciente(paciente));
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-8 overflow-x-auto shadow-md sm:rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Lista de Pacientes</h1>
-      <a className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-        Crear Paciente
-      </a>
-      <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+    <div
+      className={
+        "container mx-auto px-4 py-8 " +
+        (dark ? "bg-gray-900 text-white" : "bg-white text-black")
+      }
+    >
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
+        <TextDark dark={dark} as="h1" className="text-2xl font-bold">
+          Lista de Pacientes
+        </TextDark>
+        <a className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+          Crear Paciente
+        </a>
+      </div>
+      <DarkTable dark={dark} className="shadow-sm rounded-lg">
+        <thead
+          className={
+            "text-xs uppercase " +
+            (dark ? "text-gray-300 bg-gray-700" : "text-gray-700 bg-gray-50")
+          }
+        >
           <tr>
             <th className="px-6 py-3">Nombre</th>
             <th className="px-6 py-3">CURP</th>
@@ -29,14 +52,50 @@ function PacienteIndex() {
         </thead>
         <tbody>
           {paciente.map((paciente) => (
-            <tr key={paciente.id} className="bg-white border-b">
-              <td className="px-6 py-4">{paciente.nombre}</td>
-              <td className="px-6 py-4">{paciente.curp}</td>
-              <td className="px-6 py-4">{paciente.domicilio}</td>
-              <td className="px-6 py-4">{paciente.telefono}</td>
-              <td className="px-6 py-4">{paciente.contacto_nombre}</td>
-              <td className="px-6 py-4">{paciente.contacto_telefono}</td>
-              <td className="px-6 py-4">{paciente.activo}</td>
+            <tr
+              key={paciente.id}
+              className={
+                "border-b " +
+                (dark
+                  ? "bg-gray-800 hover:bg-gray-700"
+                  : "bg-white hover:bg-gray-50")
+              }
+            >
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {paciente.nombre}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {paciente.curp}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {paciente.domicilio}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {paciente.telefono}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {paciente.contacto_nombre}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {paciente.contacto_telefono}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {paciente.activo}
+                </TextDark>
+              </td>
               <td className="px-6 py-4">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Editar
@@ -48,7 +107,7 @@ function PacienteIndex() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </DarkTable>
     </div>
   );
 }

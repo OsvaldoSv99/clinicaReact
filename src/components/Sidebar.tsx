@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import TextDark from "../configuration/TextDark";
 
 interface SidebarProps {
   open: boolean;
@@ -24,25 +25,22 @@ const Sidebar = ({ open, setOpen, dark }: SidebarProps) => {
         md:translate-x-0`}
       >
         <nav className="flex flex-col p-2 gap-2">
-          <Link to="/" className="p-2 hover:bg-gray-700 rounded">
+          <TextDark dark={dark} as="div" className="p-4 font-bold text-xl">
+            Dashboard
+          </TextDark>
+          <Link
+            to={"/"}
+            className={`p-2 rounded ${dark ? "hover:bg-gray-700" : "hover:bg-gray-200"}`}
+          >
             Inicio
           </Link>
-          <Link to="/pacientes" className="p-2 hover:bg-gray-700 rounded">
+
+          <Link
+            to={"/pacientes"}
+            className={`p-2 rounded ${dark ? "hover:bg-gray-700" : "hover:bg-gray-200"}`}
+          >
             Pacientes
           </Link>
-          <div className="p-4 font-bold text-xl">Dashboard</div>
-
-          <a
-            className={`p-2 rounded ${dark ? "hover:bg-gray-700" : "hover:bg-gray-200"}`}
-          >
-            Inicio
-          </a>
-
-          <a
-            className={`p-2 rounded ${dark ? "hover:bg-gray-700" : "hover:bg-gray-200"}`}
-          >
-            Usuarios
-          </a>
         </nav>
       </aside>
     </>
