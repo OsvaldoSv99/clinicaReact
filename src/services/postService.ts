@@ -1,21 +1,26 @@
-import axios from "axios";
 import type { Post } from "../types/Post";
-
-const APP_URL = "http://127.0.0.1:8000/api";
+import { api } from "../api/axios";
+import type { AxiosResponse } from "axios";
 
 interface ApiResponse<T> {
   dato: T;
 }
 
-export const getPosts = () =>
-  axios.get<ApiResponse<Post[]>>(APP_URL + `/posts`);
+const unwrap = async <T>(
+  promise: Promise<AxiosResponse<ApiResponse<T>>>
+): Promise<T> => {
+  const res = await promise;
+  return res.data.dato;
+};
 
-// Omit funciona para expluir un campo de lo generado en el tipo Post y tomar en cuenta el resto de los campos
-export const createPost = (data: Omit<Post, "id">) =>
-  axios.post<ApiResponse<Post>>(APP_URL + `/posts`, data);
+
+export const getPosts = () => unwrap<Post[]>(api.get("/posts"));
 
 export const getPost = (id: number | string) =>
-  axios.get<ApiResponse<Post>>(APP_URL + `/posts/` + id);
+  unwrap<Post>(api.get(`/posts/${id}`));
+
+export const createPost = (data: Omit<Post, "id">) =>
+  unwrap<Post>(api.post("/posts", data));
 
 export const updatePost = (id: number | string, data: Omit<Post, "id">) =>
-  axios.put<ApiResponse<Post>>(APP_URL + `/posts/` + id, data);
+  unwrap<Post>(api.put(`/posts/${id}`, data));

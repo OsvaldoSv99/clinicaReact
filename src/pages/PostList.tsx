@@ -7,9 +7,8 @@ export default function PostList() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    getPosts().then((res) => setPosts(res.data.dato));
+    getPosts().then((posts) => setPosts(posts));
   }, []);
-  // console.log(posts);
 
   return (
     <div className="container mx-auto px-4 py-8 overflow-x-auto shadow-md sm:rounded-lg">

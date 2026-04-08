@@ -1,5 +1,7 @@
 // components/Sidebar.tsx
 
+import { Link } from "react-router-dom";
+
 interface SidebarProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,9 +27,12 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
         <div className="p-4 font-bold text-xl">Dashboard</div>
 
         <nav className="flex flex-col p-2 gap-2">
-          <a className="p-2 hover:bg-gray-700 rounded">Inicio</a>
-
-          <a className="p-2 hover:bg-gray-700 rounded">Usuarios</a>
+          <Link to="/" className="p-2 hover:bg-gray-700 rounded">
+            Inicio
+          </Link>
+          <Link to="/pacientes" className="p-2 hover:bg-gray-700 rounded">
+            Pacientes
+          </Link>
         </nav>
       </aside>
     </>
