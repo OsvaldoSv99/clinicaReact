@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { createPost } from "../services/postService";
 
+type OutletContext = {
+  dark: boolean
+}
+
 export default function PostCreate() {
+  const { dark } = useOutletContext<OutletContext>()
   const [title, setTitle] = useState("");
   const [body, setbody] = useState("");
   const navigation = useNavigate();
@@ -15,8 +20,20 @@ export default function PostCreate() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="font-bold text-2xl mb-4">Post Create</h1>
+    <div
+      className={
+        "container mx-auto px-4 py-8 " +
+        (dark ? "bg-gray-800 text-white" : "bg-white text-black")
+      }
+    >
+      <h1
+        className={
+          "font-bold text-2xl mb-4 " +
+          (dark ? "text-white" : "text-black")
+        }
+      >
+        Post Create
+      </h1>
       <br />
       <Link
         to="/"
@@ -27,7 +44,12 @@ export default function PostCreate() {
       <br />
       <br />
       <form onSubmit={submit} method="post">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          className={
+            "block text-sm font-medium mb-1 " +
+            (dark ? "text-gray-300" : "text-gray-700")
+          }
+        >
           Titulo
         </label>
         <input
@@ -36,10 +58,20 @@ export default function PostCreate() {
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className={
+            "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent " +
+            (dark
+              ? "border-gray-600 bg-gray-700 text-white"
+              : "border-gray-300 bg-white text-black")
+          }
           placeholder="Escribe aquí..."
         />
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          className={
+            "block text-sm font-medium mb-1 " +
+            (dark ? "text-gray-300" : "text-gray-700")
+          }
+        >
           Descripcion
         </label>
         <textarea
@@ -47,7 +79,12 @@ export default function PostCreate() {
           id="body"
           value={body}
           onChange={(e) => setbody(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className={
+            "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent " +
+            (dark
+              ? "border-gray-600 bg-gray-700 text-white"
+              : "border-gray-300 bg-white text-black")
+          }
         ></textarea>
 
         <br />

@@ -1,16 +1,14 @@
-// components/Sidebar.tsx
-
 import { Link } from "react-router-dom";
 
 interface SidebarProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  dark: boolean;
 }
 
-const Sidebar = ({ open, setOpen }: SidebarProps) => {
+const Sidebar = ({ open, setOpen, dark }: SidebarProps) => {
   return (
     <>
-      {/* fondo oscuro cuando abre en móvil */}
       {open && (
         <div
           className="fixed inset-0 bg-black/40 md:hidden"
@@ -19,13 +17,12 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
       )}
 
       <aside
-        className={`fixed md:static z-20 bg-gray-900 text-white h-full w-64
+        className={`fixed md:static z-20 h-full w-64
+        ${dark ? "bg-gray-900 text-white" : "bg-white text-black"}
         transform transition-transform duration-300
         ${open ? "translate-x-0" : "-translate-x-full"}
         md:translate-x-0`}
       >
-        <div className="p-4 font-bold text-xl">Dashboard</div>
-
         <nav className="flex flex-col p-2 gap-2">
           <Link to="/" className="p-2 hover:bg-gray-700 rounded">
             Inicio
@@ -33,6 +30,19 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
           <Link to="/pacientes" className="p-2 hover:bg-gray-700 rounded">
             Pacientes
           </Link>
+          <div className="p-4 font-bold text-xl">Dashboard</div>
+
+          <a
+            className={`p-2 rounded ${dark ? "hover:bg-gray-700" : "hover:bg-gray-200"}`}
+          >
+            Inicio
+          </a>
+
+          <a
+            className={`p-2 rounded ${dark ? "hover:bg-gray-700" : "hover:bg-gray-200"}`}
+          >
+            Usuarios
+          </a>
         </nav>
       </aside>
     </>
