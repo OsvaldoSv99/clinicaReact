@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getPosts } from "../services/postService";
 import type { Post } from "../types/Post";
 import { Link, useOutletContext } from "react-router-dom";
-import DarkTable from "../components/DarkTable";
+import DarkTable from "../configuration/DarkTable";
 import TextDark from "../configuration/TextDark";
 
 type OutletContext = {
@@ -73,13 +73,13 @@ export default function PostList() {
               <td className="px-6 py-4">
                 <Link
                   to={`/show/${post.id}`}
-                  className="bg-transparent border font-bold py-2 px-4 rounded mr-2 "
+                  className="bg-transparent hover:bg-blue-700 text-blue-700 border font-bold py-2 px-4 rounded mr-2 "
                 >
                   Ver
                 </Link>
                 <Link
                   to={`/edit/${post.id}`}
-                  className="bg-transparent border font-bold py-2 px-4 rounded "
+                  className="bg-transparent hover:bg-yellow-700 text-yellow-700 border font-bold py-2 px-4 rounded "
                 >
                   Editar
                 </Link>

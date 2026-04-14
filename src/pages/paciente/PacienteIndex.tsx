@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Paciente } from "../../types/Paciente";
 import { getPaciente } from "../../services/pacienteService";
-import { useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import TextDark from "../../configuration/TextDark";
-import DarkTable from "../../components/DarkTable";
+import DarkTable from "../../configuration/DarkTable";
 
 type OutletContext = {
   dark: boolean;
@@ -28,9 +28,12 @@ function PacienteIndex() {
         <TextDark dark={dark} as="h1" className="text-2xl font-bold">
           Lista de Pacientes
         </TextDark>
-        <a className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+        <Link
+          to="/pacientes/create"
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+        >
           Crear Paciente
-        </a>
+        </Link>
       </div>
       <DarkTable dark={dark} className="shadow-sm rounded-lg">
         <thead

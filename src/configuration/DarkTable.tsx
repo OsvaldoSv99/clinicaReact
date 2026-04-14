@@ -1,5 +1,5 @@
 import * as React from "react";
-import TextDark from "../configuration/TextDark";
+import TextDark from "./TextDark";
 
 interface DarkTableProps {
   dark: boolean;

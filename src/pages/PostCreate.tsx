@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { createPost } from "../services/postService";
+import TextDark from "../configuration/TextDark";
+import { formInputClass, formTextareaClass } from "../configuration/formStyles";
 
 type OutletContext = {
-  dark: boolean
-}
+  dark: boolean;
+};
 
 export default function PostCreate() {
-  const { dark } = useOutletContext<OutletContext>()
+  const { dark } = useOutletContext<OutletContext>();
   const [title, setTitle] = useState("");
   const [body, setbody] = useState("");
   const navigation = useNavigate();
@@ -26,14 +28,9 @@ export default function PostCreate() {
         (dark ? "bg-gray-800 text-white" : "bg-white text-black")
       }
     >
-      <h1
-        className={
-          "font-bold text-2xl mb-4 " +
-          (dark ? "text-white" : "text-black")
-        }
-      >
+      <TextDark dark={dark} as="h1" className="font-bold text-2xl mb-4">
         Post Create
-      </h1>
+      </TextDark>
       <br />
       <Link
         to="/"
@@ -44,47 +41,36 @@ export default function PostCreate() {
       <br />
       <br />
       <form onSubmit={submit} method="post">
-        <label
-          className={
-            "block text-sm font-medium mb-1 " +
-            (dark ? "text-gray-300" : "text-gray-700")
-          }
+        <TextDark
+          dark={dark}
+          as="label"
+          className="block text-sm font-medium mb-1"
         >
           Titulo
-        </label>
+        </TextDark>
+
         <input
           name="title"
           type="text"
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className={
-            "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent " +
-            (dark
-              ? "border-gray-600 bg-gray-700 text-white"
-              : "border-gray-300 bg-white text-black")
-          }
+          className={formInputClass}
           placeholder="Escribe aquí..."
         />
-        <label
-          className={
-            "block text-sm font-medium mb-1 " +
-            (dark ? "text-gray-300" : "text-gray-700")
-          }
+        <TextDark
+          dark={dark}
+          as="label"
+          className="block text-sm font-medium mb-1"
         >
           Descripcion
-        </label>
+        </TextDark>
         <textarea
           name="body"
           id="body"
           value={body}
           onChange={(e) => setbody(e.target.value)}
-          className={
-            "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent " +
-            (dark
-              ? "border-gray-600 bg-gray-700 text-white"
-              : "border-gray-300 bg-white text-black")
-          }
+          className={formTextareaClass}
         ></textarea>
 
         <br />

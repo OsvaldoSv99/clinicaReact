@@ -1,20 +1,18 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 export const useTheme = () => {
-
-  const [dark, setDark] = useState(() => localStorage.getItem("theme") === "dark")
+  const [dark, setDark] = useState(
+    () => localStorage.getItem("theme") === "dark",
+  );
 
   useEffect(() => {
-    console.log("Updating theme:", dark)
     if (dark) {
-      document.documentElement.classList.add("dark")
-      console.log("Added dark class")
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark")
-      console.log("Removed dark class")
+      document.documentElement.classList.remove("dark");
     }
-    localStorage.setItem("theme", dark ? "dark" : "light")
-  }, [dark])
+    localStorage.setItem("theme", dark ? "dark" : "light");
+  }, [dark]);
 
-  return { dark, setDark }
-}
+  return { dark, setDark };
+};

@@ -11,7 +11,7 @@ const DashboardLayout = () => {
   return (
     <div
       className={
-        "flex h-screen transition-colors duration-300 " +
+        "flex min-h-screen transition-colors duration-300 " +
         (dark ? "bg-gray-900 text-white" : "bg-gray-100 text-black")
       }
     >

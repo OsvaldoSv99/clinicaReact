@@ -6,6 +6,7 @@ import PostEdit from "./pages/PostEdit";
 import PostShow from "./pages/PostShow";
 import DashboardLayout from "./pages/layouts/DashboardLayout";
 import PacienteIndex from "./pages/paciente/PacienteIndex";
+import PacienteCreate from "./pages/paciente/PacienteCreate";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
 
           {/* Pacientes */}
           <Route path="/pacientes" element={<PacienteIndex />} />
+          <Route path="/pacientes/create" element={<PacienteCreate />} />
         </Route>
       </Routes>
     </div>
