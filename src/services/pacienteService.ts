@@ -14,4 +14,7 @@ const unwrap = async <T>(
 };
 
 export const getPaciente = () => unwrap<Paciente[]>(api.get("/paciente"));
-// export const getPosts = () => unwrap<Post[]>(api.get("/posts"));
+
+export const createPaciente = (
+  paciente: Omit<Paciente, "id" | "no_expediente" | "activo">,
+) => unwrap<Paciente>(api.post("/paciente", paciente));
