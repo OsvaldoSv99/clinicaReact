@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useOutletContext,
-} from "react-router-dom";
-import { createPost, getPost } from "../services/postService";
+import { Link, useParams, useOutletContext } from "react-router-dom";
+import { getPost } from "../services/postService";
 import {
   formInputClass,
   formTextareaClass,
@@ -22,7 +17,6 @@ export default function PostEdit() {
 
   const [title, setTitle] = useState("");
   const [body, setbody] = useState("");
-  const navigation = useNavigate();
 
   useEffect(() => {
     if (id) {
@@ -32,13 +26,6 @@ export default function PostEdit() {
       });
     }
   }, [id]);
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    createPost({ title, body }).then(() => {
-      navigation("/");
-    });
-  };
 
   return (
     <div
@@ -63,10 +50,8 @@ export default function PostEdit() {
       </Link>
       <br />
       <br />
-      <form onSubmit={submit} method="post">
-        <label className={formLabelClass}>
-          Titulo
-        </label>
+      <form method="post">
+        <label className={formLabelClass}>Titulo</label>
         <input
           name="title"
           type="text"

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { Link, useOutletContext, useNavigate } from "react-router-dom";
 import TextDark from "../../configuration/TextDark";
@@ -11,7 +12,6 @@ function PacienteCreate() {
   };
 
   const { dark } = useOutletContext<ContextType>();
-  const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [apellido_paterno, setApellido_paterno] = useState("");
   const [apellido_materno, setApellido_materno] = useState("");
@@ -30,31 +30,50 @@ function PacienteCreate() {
   const [contacto_telefono, setContacto_telefono] = useState("");
   const [contacto_nombre, setContacto_nombre] = useState("");
   const [tipo_sangre, setTipo_sangre] = useState("");
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const navigate = useNavigate();
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    createPaciente({
-      nombre,
-      apellido_paterno,
-      apellido_materno,
-      correo,
-      sexo,
-      fecha_nacimiento,
-      curp,
-      domicilio,
-      telefono,
-      ocupacion,
-      estado_civil,
-      religion,
-      escolaridad,
-      alergias,
-      medicamentos,
-      contacto_telefono,
-      contacto_nombre,
-      tipo_sangre,
-    }).then(() => {
+    // Mostrar errores de validación del lado del backend antes de enviar la solicitud
+    setErrors({});
+
+    try {
+      await createPaciente({
+        nombre,
+        apellido_paterno,
+        apellido_materno,
+        correo,
+        sexo,
+        fecha_nacimiento,
+        curp,
+        domicilio,
+        telefono,
+        ocupacion,
+        estado_civil,
+        religion,
+        escolaridad,
+        alergias,
+        medicamentos,
+        contacto_telefono,
+        contacto_nombre,
+        tipo_sangre,
+      });
       navigate("/pacientes");
-    });
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 422) {
+          setErrors(error.response.data.errors ?? {});
+        } else {
+          console.error(
+            "Error creando paciente:",
+            error.response?.data || error.message,
+          );
+        }
+      } else {
+        console.error("Error creando paciente:", error);
+      }
+    }
   };
 
   return (
@@ -77,6 +96,18 @@ function PacienteCreate() {
       <br />
       <br />
       <form onSubmit={submit} method="post">
+        {Object.keys(errors).length > 0 && (
+          <div className="mb-4 rounded border border-red-400 bg-red-50 p-3 text-sm text-red-700">
+            <p className="font-semibold">Corrige los siguientes errores:</p>
+            <ul className="list-disc pl-5">
+              {Object.entries(errors).map(([field, messages]) => (
+                <li key={field}>
+                  <strong>{field}:</strong> {messages.join(", ")}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <TextDark dark={dark} className="block text-sm font-medium mb-1">
           Nombre
         </TextDark>

@@ -66,7 +66,8 @@ function PacienteIndex() {
             >
               <td>
                 <TextDark dark={dark} className="px-6 py-4">
-                  {paciente.nombre}
+                  {paciente.nombre} {paciente.apellido_paterno}{" "}
+                  {paciente.apellido_materno}
                 </TextDark>
               </td>
               <td>
@@ -100,9 +101,12 @@ function PacienteIndex() {
                 </TextDark>
               </td>
               <td className="px-6 py-4">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <Link
+                  to={`/pacientes/edit/${paciente.id}`}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
                   Editar
-                </button>
+                </Link>
                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
                   Eliminar
                 </button>
