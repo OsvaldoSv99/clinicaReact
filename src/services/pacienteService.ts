@@ -19,5 +19,10 @@ export const createPaciente = (
   data: Omit<Paciente, "id" | "no_expediente" | "activo">,
 ) => unwrap<Paciente>(api.post("/paciente", data));
 
-// export const createPost = (data: Omit<Post, "id">) =>
-//   unwrap<Post>(api.post("/posts", data));
+export const getPacienteById = (id: number) =>
+  unwrap<Paciente>(api.get(`/paciente/${id}`));
+
+export const updatePaciente = (
+  id: number,
+  data: Omit<Paciente, "id" | "no_expediente" | "activo">,
+) => unwrap<Paciente>(api.put(`/paciente/${id}`, data));
