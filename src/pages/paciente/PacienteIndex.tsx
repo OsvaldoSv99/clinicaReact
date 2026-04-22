@@ -97,7 +97,7 @@ function PacienteIndex() {
               </td>
               <td>
                 <TextDark dark={dark} className="px-6 py-4">
-                  {paciente.activo}
+                  {paciente.activo === "1" ? "Activo" : "Inactivo"}
                 </TextDark>
               </td>
               <td className="px-6 py-4">
@@ -107,9 +107,6 @@ function PacienteIndex() {
                 >
                   Editar
                 </Link>
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
-                  Eliminar
-                </button>
               </td>
             </tr>
           ))}

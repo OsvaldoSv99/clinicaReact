@@ -24,5 +24,5 @@ export const getPacienteById = (id: number) =>
 
 export const updatePaciente = (
   id: number,
-  data: Omit<Paciente, "id" | "no_expediente" | "activo">,
+  data: Omit<Paciente, "id" | "no_expediente">,
 ) => unwrap<Paciente>(api.put(`/paciente/${id}`, data));

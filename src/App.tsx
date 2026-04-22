@@ -8,6 +8,7 @@ import DashboardLayout from "./pages/layouts/DashboardLayout";
 import PacienteIndex from "./pages/paciente/PacienteIndex";
 import PacienteCreate from "./pages/paciente/PacienteCreate";
 import PacienteEdit from "./pages/paciente/PacienteEdit";
+import RecetasIndex from "./pages/recetas/RecetasIndex";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
           <Route path="/pacientes" element={<PacienteIndex />} />
           <Route path="/pacientes/create" element={<PacienteCreate />} />
           <Route path="/pacientes/edit/:id" element={<PacienteEdit />} />
+
+          {/* Recetas */}
+          <Route path="/recetas" element={<RecetasIndex />} />
         </Route>
       </Routes>
     </div>

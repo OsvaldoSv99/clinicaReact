@@ -22,11 +22,13 @@ function PacienteEdit() {
   const { id } = useParams();
 
   const { dark } = useOutletContext<ContextType>();
+  const [expediente, setExpediente] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido_paterno, setApellido_paterno] = useState("");
   const [apellido_materno, setApellido_materno] = useState("");
   const [correo, setCorreo] = useState("");
   const [sexo, setSexo] = useState<number>(1);
+  const [activo, setActivo] = useState("1");
   const [fecha_nacimiento, setFecha_nacimiento] = useState("");
   const [curp, setCurp] = useState("");
   const [domicilio, setDomicilio] = useState("");
@@ -46,11 +48,14 @@ function PacienteEdit() {
   useEffect(() => {
     if (id) {
       getPacienteById(Number(id)).then((res) => {
+        console.log(res);
+        setExpediente(res.no_expediente);
         setNombre(res.nombre);
         setApellido_paterno(res.apellido_paterno);
         setApellido_materno(res.apellido_materno);
         setCorreo(res.correo);
         setSexo(res.sexo);
+        setActivo(res.activo);
         setFecha_nacimiento(res.fecha_nacimiento);
         setCurp(res.curp);
         setDomicilio(res.domicilio);
@@ -93,6 +98,7 @@ function PacienteEdit() {
         contacto_telefono,
         contacto_nombre,
         tipo_sangre,
+        activo,
       });
       navigate("/pacientes");
     } catch (error: unknown) {
@@ -112,7 +118,7 @@ function PacienteEdit() {
       }
     >
       <TextDark dark={dark} as="h1" className="font-bold text-2xl mb-4">
-        Editar Paciente
+        Editar Paciente {` - Expediente ${expediente}`}
       </TextDark>
       <br />
       <Link
@@ -352,11 +358,35 @@ function PacienteEdit() {
           value={contacto_telefono}
           onChange={(e) => setContacto_telefono(e.target.value)}
         />
+        <TextDark dark={dark} className="block text-sm font-medium mb-1">
+          Activo
+        </TextDark>
+
+        <div className="flex items-center">
+          <input
+            name="activo"
+            type="radio"
+            value="1"
+            checked={activo === "1"}
+            onChange={(e) => setActivo(e.target.value)}
+          />
+          <TextDark dark={dark}>Activo</TextDark>
+        </div>
+        <div className="flex items-center mb-4">
+          <input
+            name="activo"
+            type="radio"
+            value="0"
+            checked={activo === "0"}
+            onChange={(e) => setActivo(e.target.value)}
+          />
+          <TextDark dark={dark}>Inactivo</TextDark>
+        </div>
         <button
           type="submit"
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
         >
-          Agregar Paciente
+          Actualizar
         </button>
       </form>
     </div>
