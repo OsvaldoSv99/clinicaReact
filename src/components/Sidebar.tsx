@@ -41,12 +41,6 @@ const Sidebar = ({ open, setOpen, dark }: SidebarProps) => {
           >
             Pacientes
           </Link>
-          <Link
-            to={"/recetas"}
-            className={`p-2 rounded ${dark ? "hover:bg-gray-700" : "hover:bg-gray-200"}`}
-          >
-            Recetas
-          </Link>
         </nav>
       </aside>
     </>

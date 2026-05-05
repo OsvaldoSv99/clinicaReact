@@ -1,6 +1,9 @@
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 import DarkTable from "../../configuration/DarkTable";
 import TextDark from "../../configuration/TextDark";
+import { useEffect, useState } from "react";
+import type { Receta } from "../../types/Recetas";
+import { getRecetas } from "../../services/recetasService";
 
 type OutletContext = {
   dark: boolean;
@@ -8,6 +11,17 @@ type OutletContext = {
 
 function RecetasIndex() {
   const { dark } = useOutletContext<OutletContext>();
+  const { idPaciente } = useParams();
+  console.log(idPaciente);
+
+  const [recetas, setRecetas] = useState<Receta[]>([]);
+  useEffect(() => {
+    // if (idPaciente) {
+    getRecetas(Number(idPaciente)).then((recetas) => setRecetas(recetas));
+    // }
+  }, [idPaciente]);
+  console.log(recetas);
+
   return (
     <div
       className={
@@ -23,7 +37,7 @@ function RecetasIndex() {
           to="/create"
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
         >
-          Crear Post
+          Crear Recetas
         </Link>
       </div>
 
@@ -35,12 +49,58 @@ function RecetasIndex() {
           }
         >
           <tr>
-            <th className="px-6 py-3">Titulo</th>
-            <th className="px-6 py-3">Descripcion</th>
-            <th className="px-6 py-3">Acciones</th>
+            <th className="px-6 py-3">Fecha</th>
+            <th className="px-6 py-3">Hora</th>
+            <th className="px-6 py-3">Diagnostico</th>
+            <th className="px-6 py-3">Proxima Cita</th>
+            <th className="px-6 py-3">Indicaciones</th>
+            <th className="px-6 py-3">Receta</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          {recetas.map((receta) => (
+            <tr
+              key={receta.id}
+              className={
+                "border-b " +
+                (dark
+                  ? "bg-gray-800 hover:bg-gray-700"
+                  : "bg-white hover:bg-gray-50")
+              }
+            >
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {receta.fecha}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {receta.hora}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {receta.diagnostico}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {receta.proxima_cita}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  {receta.indicaciones}
+                </TextDark>
+              </td>
+              <td>
+                <TextDark dark={dark} className="px-6 py-4">
+                  ljksdlksd
+                </TextDark>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </DarkTable>
     </div>
   );

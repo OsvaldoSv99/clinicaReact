@@ -48,7 +48,6 @@ function PacienteEdit() {
   useEffect(() => {
     if (id) {
       getPacienteById(Number(id)).then((res) => {
-        console.log(res);
         setExpediente(res.no_expediente);
         setNombre(res.nombre);
         setApellido_paterno(res.apellido_paterno);
