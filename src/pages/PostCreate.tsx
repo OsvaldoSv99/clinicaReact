@@ -3,6 +3,7 @@ import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { createPost } from "../services/postService";
 import TextDark from "../configuration/TextDark";
 import { formInputClass, formTextareaClass } from "../configuration/formStyles";
+import SuccessModal from "../components/SuccessModal";
 
 type OutletContext = {
   dark: boolean;
@@ -12,13 +13,22 @@ export default function PostCreate() {
   const { dark } = useOutletContext<OutletContext>();
   const [title, setTitle] = useState("");
   const [body, setbody] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
   const navigation = useNavigate();
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    createPost({ title, body }).then(() => {
-      navigation("/");
-    });
+
+    try {
+      await createPost({ title, body });
+      setModalTitle("Post creado");
+      setModalMessage("El post se ha creado correctamente.");
+      setShowModal(true);
+    } catch (error) {
+      console.error("Error creando post:", error);
+    }
   };
 
   return (
@@ -81,6 +91,15 @@ export default function PostCreate() {
           Crear Post
         </button>
       </form>
+      <SuccessModal
+        isOpen={showModal}
+        title={modalTitle}
+        message={modalMessage}
+        onClose={() => {
+          setShowModal(false);
+          navigation("/");
+        }}
+      />
     </div>
   );
 }

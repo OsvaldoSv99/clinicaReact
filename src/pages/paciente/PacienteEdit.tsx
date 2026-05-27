@@ -7,6 +7,7 @@ import {
   useParams,
 } from "react-router-dom";
 import TextDark from "../../configuration/TextDark";
+import SuccessModal from "../../components/SuccessModal";
 import { formInputClass } from "../../configuration/formStyles";
 import {
   updatePaciente,
@@ -43,6 +44,9 @@ function PacienteEdit() {
   const [contacto_nombre, setContacto_nombre] = useState("");
   const [tipo_sangre, setTipo_sangre] = useState("");
   const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -99,7 +103,9 @@ function PacienteEdit() {
         tipo_sangre,
         activo,
       });
-      navigate("/pacientes");
+      setModalTitle("Paciente actualizado");
+      setModalMessage("Los cambios se guardaron correctamente.");
+      setShowModal(true);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 422) {
@@ -387,7 +393,16 @@ function PacienteEdit() {
         >
           Actualizar
         </button>
-      </form>
+      </form>{" "}
+      <SuccessModal
+        isOpen={showModal}
+        title={modalTitle}
+        message={modalMessage}
+        onClose={() => {
+          setShowModal(false);
+          navigate("/pacientes");
+        }}
+      />{" "}
     </div>
   );
 }

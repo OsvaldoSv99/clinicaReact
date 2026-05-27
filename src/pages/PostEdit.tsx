@@ -6,6 +6,7 @@ import {
   useOutletContext,
 } from "react-router-dom";
 import { updatePost, getPost } from "../services/postService";
+import SuccessModal from "../components/SuccessModal";
 import {
   formInputClass,
   formTextareaClass,
@@ -22,6 +23,9 @@ export default function PostEdit() {
 
   const [title, setTitle] = useState("");
   const [body, setbody] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
   const navigation = useNavigate();
 
   useEffect(() => {
@@ -35,10 +39,15 @@ export default function PostEdit() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (id) {
-      updatePost(id, { title, body }).then(() => {
-        navigation("/");
-      });
+    if (!id) return;
+
+    try {
+      await updatePost(id, { title, body });
+      setModalTitle("Post actualizado");
+      setModalMessage("Los cambios se guardaron correctamente.");
+      setShowModal(true);
+    } catch (error) {
+      console.error("Error actualizando post:", error);
     }
   };
 
@@ -93,6 +102,15 @@ export default function PostEdit() {
           Editar Post
         </button>
       </form>
+      <SuccessModal
+        isOpen={showModal}
+        title={modalTitle}
+        message={modalMessage}
+        onClose={() => {
+          setShowModal(false);
+          navigation("/");
+        }}
+      />
     </div>
   );
 }

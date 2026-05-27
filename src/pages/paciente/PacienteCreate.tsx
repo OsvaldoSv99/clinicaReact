@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useOutletContext, useNavigate } from "react-router-dom";
 import TextDark from "../../configuration/TextDark";
 import { formInputClass } from "../../configuration/formStyles";
+import SuccessModal from "../../components/SuccessModal";
 import { createPaciente } from "../../services/pacienteService";
 import React from "react";
 
@@ -31,6 +32,9 @@ function PacienteCreate() {
   const [contacto_nombre, setContacto_nombre] = useState("");
   const [tipo_sangre, setTipo_sangre] = useState("");
   const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
   const navigate = useNavigate();
 
   const submit = async (e: React.FormEvent) => {
@@ -59,7 +63,9 @@ function PacienteCreate() {
         contacto_nombre,
         tipo_sangre,
       });
-      navigate("/pacientes");
+      setModalTitle("Paciente creado");
+      setModalMessage("El paciente se creó correctamente.");
+      setShowModal(true);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 422) {
@@ -330,7 +336,16 @@ function PacienteCreate() {
         >
           Agregar Paciente
         </button>
-      </form>
+      </form>{" "}
+      <SuccessModal
+        isOpen={showModal}
+        title={modalTitle}
+        message={modalMessage}
+        onClose={() => {
+          setShowModal(false);
+          navigate("/pacientes");
+        }}
+      />{" "}
     </div>
   );
 }

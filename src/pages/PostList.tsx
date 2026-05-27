@@ -16,7 +16,6 @@ export default function PostList() {
   useEffect(() => {
     getPosts().then((posts) => setPosts(posts));
   }, []);
-  console.log(posts);
 
   return (
     <div

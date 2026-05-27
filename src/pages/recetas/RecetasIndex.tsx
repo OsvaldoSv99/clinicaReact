@@ -16,9 +16,7 @@ function RecetasIndex() {
 
   const [recetas, setRecetas] = useState<Receta[]>([]);
   useEffect(() => {
-    // if (idPaciente) {
     getRecetas(Number(idPaciente)).then((recetas) => setRecetas(recetas));
-    // }
   }, [idPaciente]);
   console.log(recetas);
 
